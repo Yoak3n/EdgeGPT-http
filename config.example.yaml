@@ -1,0 +1,9 @@
+Server:
+  port: 8080
+  proxy: "url"
+
+Mysql:
+  user: "root"
+  password: "xxx"
+  port: 3306
+  db_name: "xxx"
