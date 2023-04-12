@@ -1,6 +1,6 @@
 <p align="center" >
     <h2 align="center">EdgeGPT-http</h2>
-    <h3 align="center">a http server use go<br/>
+    <h3 align="center">a http server that used go<br/>
     </h3>
     <p align="center">just a practice work for self-entertainment. </p>
 <p>
