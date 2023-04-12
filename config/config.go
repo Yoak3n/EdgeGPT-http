@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"github.com/spf13/viper"
 	"log"
 )
@@ -12,7 +13,7 @@ type Configuration struct {
 	Server
 	Mysql
 	Redis
-	Cookies string
+	EdgeGPT
 }
 
 type Server struct {
@@ -28,6 +29,10 @@ type Mysql struct {
 type Redis struct {
 	RName string
 	RPwd  string
+}
+type EdgeGPT struct {
+	Cookies    []map[string]interface{}
+	CookiePath string
 }
 
 var Preset Configuration
@@ -54,5 +59,18 @@ func init() {
 	Preset.Mysql.MPwd = viper.GetString("Mysql.password")
 	Preset.Mysql.Port = viper.GetInt("Mysql.port")
 	Preset.Mysql.DBName = viper.GetString("Mysql.db_name")
+
+	get := viper.GetString("EdgeGPT.cookies")
+	if get != "" {
+		var data []map[string]interface{}
+		err = json.Unmarshal([]byte(get), &data)
+		if err != nil {
+			log.Panic("Unmarshal cookies err")
+		}
+		Preset.EdgeGPT.Cookies = data
+	}
+
+	Preset.EdgeGPT.CookiePath = viper.GetString("EdgeGPT.cookiePath")
+
 	log.Println("Configuration loaded successfully!")
 }

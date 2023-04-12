@@ -70,7 +70,8 @@ func (chathub *ChatHub) newConnect() error {
 	for key, value := range HEADERS {
 		headers.Add(key, value)
 	}
-	log.Printf("connecting to %s", u.String())
+	//log.Printf("connecting to %s", u.String())
+	// too many tracers
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), headers)
 	if err != nil {
 		log.Fatal("dial:", err)
@@ -100,10 +101,10 @@ func (chathub *ChatHub) initialHandshake() error {
 }
 
 // Ask a question to the bot
-func (chathub *ChatHub) askStream(prompt string, conversationStyle ConversationStyle) (answer *Answer, err error) {
-	err = chathub.initialHandshake()
+func (chathub *ChatHub) askStream(prompt string, conversationStyle ConversationStyle, callback func(answer *Answer)) error {
+	err := chathub.initialHandshake()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	//log.Println("initialHandshake success")
 	// Construct a ChatHub request
@@ -111,24 +112,24 @@ func (chathub *ChatHub) askStream(prompt string, conversationStyle ConversationS
 	// Send request
 	msg, err := appendIdentifier(chathub.request.Struct)
 	if err != nil {
-		return nil, fmt.Errorf("appendIdentifier request struct err: %s", err.Error())
+		return fmt.Errorf("appendIdentifier request struct err: %s", err.Error())
 	}
-	err = chathub.ws.WriteMessage(websocket.TextMessage, []byte(msg))
-	if err != nil {
-		return nil, err
-	}
+	chathub.ws.WriteMessage(websocket.TextMessage, []byte(msg)) //nolint:errcheck
 	// var final bool = false
 	for {
 		_, message, err := chathub.ws.ReadMessage()
 		if err != nil {
-			return nil, err
+			return err
 		}
 		if string(message) == "" {
-			return nil, errors.New("answer is blank")
+			return errors.New("the answer is empty")
 		}
 		answer := NewAnswer(string(message))
+		if callback != nil {
+			callback(answer)
+		}
 		if answer.IsDone() {
-			return answer, nil
+			return nil
 		}
 		if answer.Type() != 1 && answer.Type() != 2 {
 			log.Println(answer.Raw())

@@ -1,9 +1,5 @@
 package edgegpt
 
-import (
-	"log"
-)
-
 // Combines everything to make it seamless
 type ChatBot struct {
 	cookiePath string
@@ -35,11 +31,8 @@ func (bot *ChatBot) Init() error {
 		return err
 	}
 	bot.chatHub = NewChatHub(bot.addr, bot.path, conversation)
-	err = bot.chatHub.newConnect()
-	if err != nil {
-		return err
-	}
-	log.Println("init success")
+	//log.Println("init success")
+	// too many tracers
 	return nil
 }
 
@@ -51,10 +44,15 @@ if you only want to get the final result,
 you can use `answer.IsDone()` to judge whether it is finished
 */
 
-func (bot *ChatBot) Ask(prompt string, conversationStyle ConversationStyle) (answer *Answer, err error) {
+func (bot *ChatBot) Ask(prompt string, conversationStyle ConversationStyle, callback func(answer *Answer)) error {
 	// defer bot.chatHub.Close()
-
-	return bot.chatHub.askStream(prompt, conversationStyle)
+	err := bot.chatHub.newConnect()
+	if err != nil {
+		return err
+	}
+	defer bot.chatHub.Close()
+	//log.Println("connect chathub success")
+	return bot.chatHub.askStream(prompt, conversationStyle, callback)
 }
 
 func (bot *ChatBot) Close() error {

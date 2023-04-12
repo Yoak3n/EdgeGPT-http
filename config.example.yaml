@@ -2,8 +2,12 @@ Server:
   port: 8080
   proxy: "url"
 
-Mysql:
-  user: "root"
-  password: "xxx"
-  port: 3306
-  db_name: "xxx"
+#Mysql:
+#  user: "root"
+#  password: "xxx"
+#  port: 3306
+#  db_name: "xxx"
+
+EdgeGPT:
+  cookies: ""
+  cookiePath: "cookies.json" # 路径以入口程序所在目录为起始点

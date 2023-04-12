@@ -20,7 +20,7 @@ func appendIdentifier(msg map[string]interface{}) (string, error) {
 	return string(b) + DELIMITER, nil
 }
 
-// GetRandomHex Returns random hex string
+// Returns random hex string
 func GetRandomHex(n int, allowedChars ...[]rune) string {
 	var letters []rune
 	if len(allowedChars) == 0 {
@@ -36,7 +36,7 @@ func GetRandomHex(n int, allowedChars ...[]rune) string {
 	return string(b)
 }
 
-// GetRandomIp Generate random IP between range 13.104.0.0/14
+// Generate random IP between range 13.104.0.0/14
 func GetRandomIp() string {
 	ip := fmt.Sprintf("13.%d.%d.%d", 104+rand.Intn(3), rand.Intn(255), rand.Intn(255))
 	return ip
