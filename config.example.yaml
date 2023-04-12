@@ -1,6 +1,5 @@
 Server:
-  port: 8080
-  proxy: "url"
+  port: 8080 # listening port
 
 #Mysql:
 #  user: "root"
@@ -9,5 +8,6 @@ Server:
 #  db_name: "xxx"
 
 EdgeGPT:
-  cookies: ""
-  cookiePath: "cookies.json" # 路径以入口程序所在目录为起始点
+  cookies: '' # how get it please look https://github.com/acheong08/EdgeGPT, input the content of "Export as JSON" in one line
+  cookiePath: "cookies.json" # path from main.go,also look https://github.com/acheong08/EdgeGPT please
+  proxy: "url"

@@ -3,8 +3,8 @@ package gpt
 // Created at 2023/4/10 18:50
 // Created by Yoake
 import (
-	"edgegpt-http/config"
-	"edgegpt-http/edgegpt"
+	"github.com/Yoak3n/EdgeGPT-http/config"
+	"github.com/Yoak3n/EdgeGPT-http/edgegpt"
 	"log"
 )
 
@@ -21,7 +21,7 @@ type EdgeBot struct {
 
 func NewBot(session string, style string) *EdgeBot {
 	botConf := config.Preset.EdgeGPT
-	bot := edgegpt.NewChatBot(botConf.CookiePath, botConf.Cookies, config.Preset.Proxy)
+	bot := edgegpt.NewChatBot(botConf.CookiePath, botConf.Cookies, botConf.Proxy)
 	err := bot.Init()
 	if err != nil {
 		log.Println("init bot failed")
@@ -43,8 +43,8 @@ func (e *EdgeBot) OnQuestion(question string) {
 	if err != nil {
 		log.Println("no answer")
 	}
-
 }
+
 func (e *EdgeBot) callback(a *edgegpt.Answer) {
 	e.Answer = a
 }

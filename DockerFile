@@ -1,0 +1,6 @@
+FROM golang
+
+RUN go install "github.com/Yoak3n/EdgeGPT-http@latest"
+
+CMD ["echo","build successfully!!!!!"]
+CMD ["./main.go"]

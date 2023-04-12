@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"edgegpt-http/edgegpt"
 	"fmt"
+	"github.com/Yoak3n/EdgeGPT-http/edgegpt"
 )
 
 // Created at 2023/4/10 20:57

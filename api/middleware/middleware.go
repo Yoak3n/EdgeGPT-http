@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"edgegpt-http/internal/gpt"
 	"errors"
+	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
 	"github.com/gin-gonic/gin"
 	"github.com/tidwall/gjson"
 	"log"

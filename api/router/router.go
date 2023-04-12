@@ -3,9 +3,9 @@ package router
 // Created at 2023/4/10 14:48
 // Created by Yoake
 import (
-	"edgegpt-http/api/middleware"
-	"edgegpt-http/internal/gpt"
-	"edgegpt-http/pkg/utils"
+	"github.com/Yoak3n/EdgeGPT-http/api/middleware"
+	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
+	"github.com/Yoak3n/EdgeGPT-http/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"

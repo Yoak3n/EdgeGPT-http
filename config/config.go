@@ -17,8 +17,7 @@ type Configuration struct {
 }
 
 type Server struct {
-	Port  int
-	Proxy string
+	Port int
 }
 type Mysql struct {
 	MName  string
@@ -33,6 +32,7 @@ type Redis struct {
 type EdgeGPT struct {
 	Cookies    []map[string]interface{}
 	CookiePath string
+	Proxy      string
 }
 
 var Preset Configuration
@@ -53,7 +53,6 @@ func init() {
 	}
 
 	Preset.Server.Port = viper.GetInt("Server.port")
-	Preset.Proxy = viper.GetString("Server.proxy")
 
 	Preset.Mysql.MName = viper.GetString("Mysql.user")
 	Preset.Mysql.MPwd = viper.GetString("Mysql.password")
@@ -69,8 +68,17 @@ func init() {
 		}
 		Preset.EdgeGPT.Cookies = data
 	}
-
 	Preset.EdgeGPT.CookiePath = viper.GetString("EdgeGPT.cookiePath")
-
+	Preset.EdgeGPT.Proxy = viper.GetString("EdgeGPT.proxy")
 	log.Println("Configuration loaded successfully!")
 }
+
+// 尝试使用泛型解决环境变量与配置文件的问题，还需要研究，甚至这个方案还要再重新考虑，因为viper获取配置是多层的，而环境变量只有一层
+//func getConf[T string | int | []map[string]interface{}](key string) (conf T) {
+//	c := os.Getenv(key)
+//	if c != "" {
+//		return interface{}(c)
+//	} else {
+//		return viper.Get(key)
+//	}
+//}

@@ -2,9 +2,9 @@ package database
 
 import (
 	"database/sql"
-	"edgegpt-http/config"
-	"edgegpt-http/internal/model"
 	"fmt"
+	"github.com/Yoak3n/EdgeGPT-http/config"
+	"github.com/Yoak3n/EdgeGPT-http/internal/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
