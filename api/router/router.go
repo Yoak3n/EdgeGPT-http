@@ -3,6 +3,7 @@ package router
 // Created at 2023/4/10 14:48
 // Created by Yoake
 import (
+	"fmt"
 	"github.com/Yoak3n/EdgeGPT-http/api/middleware"
 	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
 	"github.com/Yoak3n/EdgeGPT-http/pkg/utils"
@@ -22,8 +23,8 @@ func responseQuestion(c *gin.Context) {
 			log.Fatal("blank question")
 		}
 	}
-	bot, ok := c.Get("bot")
 	style, _ := c.Get("style")
+	bot, ok := c.Get("bot")
 	if ok {
 		b := bot.(*gpt.EdgeBot)
 		b.OnQuestion(question)
@@ -32,7 +33,8 @@ func responseQuestion(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  "success",
 			"style":   style,
-			"message": answer,
+			"message": b.Answer.Text(),
+			"count":   fmt.Sprintf("%d / %d", b.Answer.NumUserMessages(), b.Answer.MaxNumUserMessages()),
 		})
 	} else {
 		log.Fatalln("can't invoke any bot")
@@ -41,5 +43,6 @@ func responseQuestion(c *gin.Context) {
 
 func init() {
 	R = gin.Default()
-	R.POST("/chat", middleware.RequestSource("0.0.0.0"), responseQuestion)
+	R.Use(middleware.Cors())
+	R.POST("/chat", middleware.RequestSource(), responseQuestion)
 }

@@ -9,7 +9,7 @@ import (
 // Created by Yoake
 
 func FormatAnswer(answer *edgegpt.Answer) string {
-	text := fmt.Sprintf("剩余回复数:%d/%d\n%s", answer.NumUserMessages(), answer.MaxNumUserMessages(), answer.Text())
+	text := fmt.Sprintf("%s\n(%d/%d)", answer.Text(), answer.NumUserMessages(), answer.MaxNumUserMessages())
 	return text
 }
 

@@ -30,7 +30,25 @@ func checkInput(r *gjson.Result) (session string, style string, question string,
 	return
 }
 
-func RequestSource(source string) gin.HandlerFunc {
+func Cors() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		method := c.Request.Method
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization, Token")
+		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+		c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-    Headers, Content-Type")
+		c.Header("Access-Control-Allow-Credentials", "true")
+
+		//放行所有OPTIONS方法
+		if method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+		}
+		// 处理请求
+		c.Next()
+	}
+}
+
+func RequestSource() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		data, err := c.GetRawData()
 		if err != nil {
@@ -55,13 +73,6 @@ func RequestSource(source string) gin.HandlerFunc {
 			c.Set("bot", bot)
 			Pool.Workers[session] = bot
 			c.Next()
-		}
-		header := c.GetHeader("Request-Source")
-		if header == source {
-			c.Next()
-		} else {
-			log.Println(header)
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid request source"})
 		}
 	}
 }

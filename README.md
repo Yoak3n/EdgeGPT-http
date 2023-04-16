@@ -36,7 +36,8 @@ Then the client will get a json response:
 {
   "status":  "success",
   "style":   "bing-c",
-  "message": "bing's answer"
+  "message": "bing's answer",
+  "count": "1/20"
 }
 ```
 
