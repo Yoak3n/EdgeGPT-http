@@ -1,6 +1,6 @@
 package edgegpt
 
-// Combines everything to make it seamless
+// ChatBot Combines everything to make it seamless
 type ChatBot struct {
 	cookiePath string
 	cookies    []map[string]interface{}

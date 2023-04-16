@@ -6,8 +6,8 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-resty/resty/v2 v2.7.0
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/websocket v1.5.0
-	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.15.0
 	github.com/tidwall/gjson v1.14.4
 	gorm.io/driver/mysql v1.5.0

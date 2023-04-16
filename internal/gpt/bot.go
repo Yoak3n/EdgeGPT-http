@@ -5,6 +5,7 @@ package gpt
 import (
 	"github.com/Yoak3n/EdgeGPT-http/config"
 	"github.com/Yoak3n/EdgeGPT-http/edgegpt"
+	"github.com/google/uuid"
 	"log"
 )
 
@@ -12,11 +13,14 @@ type BotPool struct {
 	Workers map[string]*EdgeBot
 	Size    int
 }
+
 type EdgeBot struct {
+	UUID    string
 	Session string
 	Answer  *edgegpt.Answer
 	Bot     *edgegpt.ChatBot
 	Style   edgegpt.ConversationStyle
+	End     bool
 }
 
 func NewBot(session string, style string) *EdgeBot {
@@ -35,7 +39,8 @@ func NewBot(session string, style string) *EdgeBot {
 	case "bing-p":
 		s = edgegpt.Precise
 	}
-	return &EdgeBot{session, nil, bot, s}
+	// import uuid
+	return &EdgeBot{uuid.NewString(), session, nil, bot, s, false}
 }
 
 func (e *EdgeBot) OnQuestion(question string) {
@@ -47,6 +52,15 @@ func (e *EdgeBot) OnQuestion(question string) {
 
 func (e *EdgeBot) callback(a *edgegpt.Answer) {
 	e.Answer = a
+}
+
+func (e *EdgeBot) Reset() error {
+	err := e.Bot.Reset()
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 //func (e *EdgeBot) OnAnswer() {

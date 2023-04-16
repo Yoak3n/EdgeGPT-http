@@ -12,7 +12,7 @@ const (
 	Precise  ConversationStyle = "h3precise"
 )
 
-// Request object for ChatHub
+// ChatHubRequest Request object for ChatHub
 type ChatHubRequest struct {
 	Struct                map[string]interface{}
 	ConversationSignature string
@@ -32,7 +32,7 @@ func NewChatHubRequest(conversationSignature, clientId, conversationId string, i
 	return req
 }
 
-// Updates request object
+// Update Updates request object
 func (req *ChatHubRequest) Update(prompt string, conversation_style ConversationStyle, options ...string) {
 	if len(options) == 0 {
 		options = []string{

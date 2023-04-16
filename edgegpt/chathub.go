@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// http.Header{}
+// HEADERS http.Header{}
 var HEADERS = map[string]string{
 	"accept":                      "application/json",
 	"accept-language":             "en-US,en;q=0.9",
@@ -34,7 +34,7 @@ var HEADERS = map[string]string{
 	"x-forwarded-for":             GetRandomIp(),
 }
 
-// Chat API
+// ChatHub Chat API
 type ChatHub struct {
 	// hub *Hub
 	addr string
@@ -114,7 +114,10 @@ func (chathub *ChatHub) askStream(prompt string, conversationStyle ConversationS
 	if err != nil {
 		return fmt.Errorf("appendIdentifier request struct err: %s", err.Error())
 	}
-	chathub.ws.WriteMessage(websocket.TextMessage, []byte(msg)) //nolint:errcheck
+	err = chathub.ws.WriteMessage(websocket.TextMessage, []byte(msg))
+	if err != nil {
+		return err
+	}
 	// var final bool = false
 	for {
 		_, message, err := chathub.ws.ReadMessage()

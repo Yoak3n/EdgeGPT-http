@@ -24,7 +24,11 @@ func checkInput(r *gjson.Result) (session string, style string, question string,
 	style = r.Get("style").String()
 
 	if style != "bing-c" && style != "bing-b" && style != "bing-p" {
-		err = errors.New(`please input ["bing-c","bing-b","bing-p"]rather than another style`)
+		if style == "" {
+			style = "bing-b"
+		} else {
+			err = errors.New(`please input ["bing-c","bing-b","bing-p"]rather than another style to create a conversation`)
+		}
 	}
 
 	return
@@ -52,7 +56,7 @@ func RequestSource() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		data, err := c.GetRawData()
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "get rawdata failed"})
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "get raw data failed"})
 		}
 		r := gjson.Parse(string(data))
 		session, style, question, err := checkInput(&r)
