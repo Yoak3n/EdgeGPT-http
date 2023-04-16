@@ -10,12 +10,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          docker build -t edgegpt-http -f EdgeGPT-http/Dockerfile .
+          docker build -t edgegpt-http  .
       - name: Login to Registry
         run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Image
         run: |
-          docker push EdgeGPT-http
+          docker push edgegpt-http
 
   # Docker 自动部署
 #  deploy-docker:
