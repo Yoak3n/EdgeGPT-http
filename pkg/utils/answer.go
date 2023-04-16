@@ -13,6 +13,7 @@ func FormatAnswer(answer *edgegpt.Answer) string {
 	return text
 }
 
-func OutPutAnswer(text string) string {
-	return text
-}
+//func OutPutAnswer(answer *edgegpt.Answer) string {
+//	text := answer.Text()
+//	return text
+//}
