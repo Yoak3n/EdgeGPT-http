@@ -37,15 +37,17 @@ Then the client will get a json response:
   "status":  "success",
   "style":   "bing-c",
   "message": "bing's answer",
-  "count": "1/20"
+  "count": {
+    "currentNum":1,
+    "maxNum":20
+  }
 }
 ```
 
 ### Problem
 - [x] multiple sessions
-- [ ] commands for conversation like ```reset```or more
+- [x] commands for conversation like ```reset```or more
 - [ ] source auto release
-- [ ] message queue?
 - [ ] high concurrency(perhaps gin already supported)
 
 ### Reference
