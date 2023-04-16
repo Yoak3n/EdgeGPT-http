@@ -53,32 +53,49 @@ func init() {
 	}
 
 	Preset.Server.Port = viper.GetInt("Server.port")
-
 	Preset.Mysql.MName = viper.GetString("Mysql.user")
 	Preset.Mysql.MPwd = viper.GetString("Mysql.password")
 	Preset.Mysql.Port = viper.GetInt("Mysql.port")
 	Preset.Mysql.DBName = viper.GetString("Mysql.db_name")
 
-	get := viper.GetString("EdgeGPT.cookies")
-	if get != "" {
-		var data []map[string]interface{}
-		err = json.Unmarshal([]byte(get), &data)
-		if err != nil {
-			log.Panic("Unmarshal cookies err")
-		}
-		Preset.EdgeGPT.Cookies = data
-	}
-	Preset.EdgeGPT.CookiePath = viper.GetString("EdgeGPT.cookiePath")
+	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookiePath", "cookies.json")
+	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookies", "")
+	Preset.EdgeGPT.setDefaultConf("EdgeGPT.proxy", "http://127.0.0.1:7890")
 	Preset.EdgeGPT.Proxy = viper.GetString("EdgeGPT.proxy")
 	log.Println("Configuration loaded successfully!")
+
 }
 
-// 尝试使用泛型解决环境变量与配置文件的问题，还需要研究，甚至这个方案还要再重新考虑，因为viper获取配置是多层的，而环境变量只有一层
-//func getConf[T string | int | []map[string]interface{}](key string) (conf T) {
-//	c := os.Getenv(key)
-//	if c != "" {
-//		return interface{}(c)
-//	} else {
-//		return viper.Get(key)
-//	}
-//}
+func (e *EdgeGPT) setDefaultConf(key string, value string) {
+	get := viper.GetString(key)
+	if get != "" {
+		switch key {
+		case "EdgeGPT.cookiePath":
+			e.CookiePath = get
+		case "EdgeGPT.cookies":
+			var data []map[string]interface{}
+			err := json.Unmarshal([]byte(get), &data)
+			if err != nil {
+				log.Panic("Unmarshal cookies err")
+			}
+			e.Cookies = data
+		case "EdgeGPT.proxy":
+			e.Proxy = get
+		}
+	} else {
+		switch key {
+		case "EdgeGPT.cookiePath":
+			e.CookiePath = value
+		case "EdgeGPT.cookies":
+			var data []map[string]interface{}
+			err := json.Unmarshal([]byte(value), &data)
+			if err != nil {
+				log.Panic("Unmarshal cookies err")
+			}
+			e.Cookies = data
+		case "EdgeGPT.proxy":
+			e.CookiePath = value
+		}
+	}
+
+}
