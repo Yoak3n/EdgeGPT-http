@@ -1,6 +1,11 @@
-FROM golang
+FROM golang:alpine AS builder
+WORKDIR /app
+COPY . .
+RUN go build -ldflags="-w -s" -o edgegpt-http main.go
 
-RUN go install "github.com/Yoak3n/EdgeGPT-http@latest"
+FROM alpine
+WORKDIR /app
+COPY --from=builder /app/edgegpt-http .
 
-CMD ["echo","build successfully!!!!!"]
-CMD ["go run ./main.go"]
+EXPOSE 8080
+CMD ["/app/edgegpt-http"]
