@@ -1,3 +1,6 @@
 config.yaml
 cookies.json
 deploy-docker.yml
+
+edgegpt-http_linux_amd64
+edgegpt-http_windows_amd64.exe

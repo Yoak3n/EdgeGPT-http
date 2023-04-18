@@ -87,12 +87,17 @@ func (e *EdgeGPT) setDefaultConf(key string, value string) {
 		case "EdgeGPT.cookiePath":
 			e.CookiePath = value
 		case "EdgeGPT.cookies":
-			var data []map[string]interface{}
-			err := json.Unmarshal([]byte(value), &data)
-			if err != nil {
-				log.Panic("Unmarshal cookies err")
+			if value != "" {
+				var data []map[string]interface{}
+				err := json.Unmarshal([]byte(value), &data)
+				if err != nil {
+					log.Panic("Unmarshal cookies err")
+				}
+				e.Cookies = data
+			} else {
+				e.Cookies = nil
 			}
-			e.Cookies = data
+
 		case "EdgeGPT.proxy":
 			e.CookiePath = value
 		}
