@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  edgegpt-http:
+    image: edgegpt-http:latest
+    container_name: edgegpt-http
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./cookies.json ./cookies.json
+      - ./config.yml ./config.yml
+    environment:
+      - GIN_MODE:"release"

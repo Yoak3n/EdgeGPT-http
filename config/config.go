@@ -39,7 +39,7 @@ var Preset Configuration
 
 func init() {
 	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
+	viper.SetConfigType("yml")
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("./config")
 	err := viper.ReadInConfig()
@@ -87,17 +87,12 @@ func (e *EdgeGPT) setDefaultConf(key string, value string) {
 		case "EdgeGPT.cookiePath":
 			e.CookiePath = value
 		case "EdgeGPT.cookies":
-			if value != "" {
-				var data []map[string]interface{}
-				err := json.Unmarshal([]byte(value), &data)
-				if err != nil {
-					log.Panic("Unmarshal cookies err")
-				}
-				e.Cookies = data
-			} else {
-				e.Cookies = nil
+			var data []map[string]interface{}
+			err := json.Unmarshal([]byte(value), &data)
+			if err != nil {
+				log.Println("Unmarshal cookies err")
 			}
-
+			e.Cookies = data
 		case "EdgeGPT.proxy":
 			e.CookiePath = value
 		}
