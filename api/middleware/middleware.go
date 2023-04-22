@@ -64,8 +64,10 @@ func RequestSource() gin.HandlerFunc {
 		if err != nil {
 			c.Set("error", err)
 		}
+		// 设置上下文键值对
 		c.Set("question", question)
 		c.Set("style", style)
+		c.Set("session", session)
 
 		// 查找内存连接池中是否存在相应对话
 		value, ok := Pool.Workers[session]
@@ -74,6 +76,8 @@ func RequestSource() gin.HandlerFunc {
 			c.Next()
 		} else {
 			bot := gpt.NewBot(session, style)
+			//database.UserRegister(bot.Session, bot.UUID)
+			// 对于注册来说，似乎不需要数据持久化，很有可能数据库中存在的session实际已丢失
 			c.Set("bot", bot)
 			Pool.Workers[session] = bot
 			c.Next()

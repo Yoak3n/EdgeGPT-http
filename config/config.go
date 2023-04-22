@@ -89,7 +89,7 @@ func (e *EdgeGPT) setDefaultConf(key string, value string) {
 		case "EdgeGPT.cookies":
 			var data []map[string]interface{}
 			err := json.Unmarshal([]byte(value), &data)
-			if err != nil {
+			if err != nil && value != "" {
 				log.Println("Unmarshal cookies err")
 			}
 			e.Cookies = data

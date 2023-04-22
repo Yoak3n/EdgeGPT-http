@@ -10,23 +10,52 @@ import (
 	"log"
 )
 
-var Conn *sql.DB
-
 // Created at 2023/4/10 14:56
 // Created by Yoake
+var conn *sql.DB
+var DB *gorm.DB
+var user model.User
+var err error
+
+// var message model.Message
+
 func init() {
 	conf := config.Preset.Mysql
 	dsn := fmt.Sprintf("%s:%s@tcp(localhost:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", conf.MName, conf.MPwd, conf.Port, conf.DBName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Panic("database connected err")
 	}
-	err = db.AutoMigrate(model.Data{})
+	err = DB.AutoMigrate(model.Data{})
+	//err = db.AutoMigrate(model.User{})
 	if err != nil {
 		log.Panic("create table failed")
 	}
-	Conn, _ = db.DB()
-	Conn.SetMaxOpenConns(5)
-	Conn.SetMaxIdleConns(2)
+	conn, _ = DB.DB()
+	conn.SetMaxOpenConns(5)
+	conn.SetMaxIdleConns(2)
+	log.Println("MySQL already connected")
+}
 
+func UserRegister(session string, uid string) {
+	DB.Create(&model.User{UID: uid, Session: session})
+}
+
+func ReadUser(session string) model.User {
+	DB.First(user, "session = ?", session)
+	return user
+}
+
+func CloseConnect() {
+	conn.Close()
+}
+
+func CreateMessage(question string, answer string, session string) {
+	message := model.Message{
+		Question: question,
+		Answer:   answer,
+		Session:  session,
+	}
+	DB.Create(&model.Data{Message: message})
+	log.Printf("MySQL成功写入一条属于%s的消息", session)
 }

@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/Yoak3n/EdgeGPT-http/internal/database"
 	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
 	"github.com/Yoak3n/EdgeGPT-http/pkg/utils"
 	"github.com/gin-gonic/gin"
@@ -10,8 +11,13 @@ import (
 
 // Created at 2023/4/13 3:12
 // Created by Yoake
+const (
+	success = "success"
+	failed  = "failed"
+)
 
 func handleAnswer(b *gpt.EdgeBot, c *gin.Context, question string) {
+	session, _ := c.Get("session")
 	style, _ := c.Get("style")
 	if b.End {
 		err := b.Reset()
@@ -21,9 +27,11 @@ func handleAnswer(b *gpt.EdgeBot, c *gin.Context, question string) {
 			log.Println("already reset")
 		}
 	}
+
 	b.OnQuestion(question)
 	answer := utils.FormatAnswer(b.Answer)
 	log.Printf("%s Recived:%s", b.Session, answer)
+
 	current := b.Answer.NumUserMessages()
 	max := b.Answer.MaxNumUserMessages()
 	if current >= max {
@@ -35,11 +43,12 @@ func handleAnswer(b *gpt.EdgeBot, c *gin.Context, question string) {
 	count["currentNum"] = current
 	count["maxNum"] = max
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "success",
+		"status":  success,
 		"style":   style,
 		"message": b.Answer.Text(),
 		"count":   count,
 	})
+	database.CreateMessage(question, b.Answer.Text(), session.(string))
 }
 
 func handleReset(b *gpt.EdgeBot, c *gin.Context) {
@@ -47,12 +56,12 @@ func handleReset(b *gpt.EdgeBot, c *gin.Context) {
 	if err != nil {
 		log.Println("reset failed")
 		c.JSON(http.StatusFailedDependency, gin.H{
-			"status": "failed",
+			"status": failed,
 			"error":  "reset failed",
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"status":  "success",
+			"status":  success,
 			"message": "reset successfully",
 		})
 	}

@@ -8,7 +8,6 @@ import (
 
 type Data struct {
 	gorm.Model
-	User
 	Message
 }
 
@@ -19,4 +18,5 @@ type User struct {
 type Message struct {
 	Question string
 	Answer   string
+	Session  string
 }
