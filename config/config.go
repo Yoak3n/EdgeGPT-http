@@ -60,7 +60,7 @@ func init() {
 
 	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookiePath", "cookies.json")
 	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookies", "")
-	Preset.EdgeGPT.setDefaultConf("EdgeGPT.proxy", "http://127.0.0.1:7890")
+	Preset.EdgeGPT.setDefaultConf("EdgeGPT.proxy", "")
 	Preset.EdgeGPT.Proxy = viper.GetString("EdgeGPT.proxy")
 	log.Println("Configuration loaded successfully!")
 

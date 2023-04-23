@@ -1,9 +1,12 @@
 package router
 
 import (
-	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/Yoak3n/EdgeGPT-http/internal/database"
+	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
 )
 
 func responseQuestion(c *gin.Context) {
@@ -28,4 +31,10 @@ func responseQuestion(c *gin.Context) {
 	} else {
 		log.Fatalln("can't invoke any bot")
 	}
+}
+
+func sessionQuery(c *gin.Context) {
+	query := c.Param("session")
+	result := database.GetSomeoneAllMessages(query)
+	handleQuery(result, c)
 }

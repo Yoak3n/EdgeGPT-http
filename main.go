@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/Yoak3n/EdgeGPT-http/api/router"
 	"github.com/Yoak3n/EdgeGPT-http/config"
 	"github.com/Yoak3n/EdgeGPT-http/internal/database"
@@ -17,5 +18,4 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 }

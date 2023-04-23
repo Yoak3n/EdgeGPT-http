@@ -1,6 +1,6 @@
 <p align="center" >
     <h2 align="center">EdgeGPT-http</h2>
-    <h3 align="center">a http server that used go<br/>
+    <h3 align="center">a http server based on go<br/>
     </h3>
     <p align="center">just a practice work for self-entertainment. </p>
 <p>
@@ -15,8 +15,8 @@ or
 
 ### Usage
 
-<details>
-<summary>manually </summary>
+#### Basic(manually)
+
 Find the configuration file ```config.example.yaml``` and rename it as ```config.yaml```, then modify the configuration inside.
 
 1. Start the service by using the following command:
@@ -45,7 +45,6 @@ Then the client will get a json response:
   }
 }
 ```
-</details>
 
 <details>
 <summary>Docker</summary>

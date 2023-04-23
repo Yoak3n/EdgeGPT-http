@@ -1,12 +1,16 @@
 package router
 
 import (
-	"github.com/Yoak3n/EdgeGPT-http/internal/database"
-	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
-	"github.com/Yoak3n/EdgeGPT-http/pkg/utils"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/Yoak3n/EdgeGPT-http/config"
+	"github.com/Yoak3n/EdgeGPT-http/internal/database"
+	"github.com/Yoak3n/EdgeGPT-http/internal/gpt"
+	"github.com/Yoak3n/EdgeGPT-http/internal/model"
+	"github.com/Yoak3n/EdgeGPT-http/pkg/utils"
 )
 
 // Created at 2023/4/13 3:12
@@ -48,7 +52,9 @@ func handleAnswer(b *gpt.EdgeBot, c *gin.Context, question string) {
 		"message": b.Answer.Text(),
 		"count":   count,
 	})
-	database.CreateMessage(question, b.Answer.Text(), session.(string))
+	if config.Preset.Mysql.DBName != "" {
+		database.CreateMessage(question, b.Answer.Text(), session.(string))
+	}
 }
 
 func handleReset(b *gpt.EdgeBot, c *gin.Context) {
@@ -65,4 +71,15 @@ func handleReset(b *gpt.EdgeBot, c *gin.Context) {
 			"message": "reset successfully",
 		})
 	}
+}
+
+func handleQuery(result []model.Data, c *gin.Context) {
+	var messages []model.Message
+	for _, item := range result {
+		messages = append(messages, item.Message)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  success,
+		"results": messages,
+	})
 }
