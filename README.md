@@ -81,7 +81,6 @@ docker-compose up -d
 - [x] commands for conversation like ```reset```or more
 - [ ] source auto release
 - [x] high concurrency(perhaps gin already supported)
-- [ ] fetch environment variables for using docker 
 
 ### Reference
 At the very beginning I use the Python lib [EdgeGPT](https://github.com/acheong08/EdgeGPT) in my [bing-qqbot](https://github.com/Yoak3n/bing-qqbot),it's too complicated to start.So I planed to convert it to golang at some point,however thank [billikeu](https://github.com/billikeu/billikeu) that his repository [Go-EdgeGPT](https://github.com/billikeu/Go-EdgeGPT) really helped me(btw my plan is also named ```go-EdgeGPT```)XD   

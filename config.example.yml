@@ -8,6 +8,6 @@ Mysql:
   db_name: "xxx"
 
 EdgeGPT:
-  cookies: '' # how get it please look https://github.com/acheong08/EdgeGPT, input the content of "Export as JSON" in one line
-  cookiePath: "cookies.json" # path from main.go,also look https://github.com/acheong08/EdgeGPT please
+  cookies: '' #how get it please look https://github.com/acheong08/EdgeGPT, input the content of "Export as JSON" in one line
+  cookiePath: "cookies.json" #path from main.go,also look https://github.com/acheong08/EdgeGPT please
   proxy: ""
