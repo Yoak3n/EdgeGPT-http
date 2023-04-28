@@ -1,6 +1,6 @@
 <p align="center" >
     <h2 align="center">EdgeGPT-http</h2>
-    <h3 align="center">a http server that used go<br/>
+    <h3 align="center">a http server based on go<br/>
     </h3>
     <p align="center">just a practice work for self-entertainment. </p>
 <p>
@@ -15,8 +15,8 @@ or
 
 ### Usage
 
-<details>
-<summary>manually </summary>
+#### Basic(manually)
+
 Find the configuration file ```config.example.yaml``` and rename it as ```config.yaml```, then modify the configuration inside.
 
 1. Start the service by using the following command:
@@ -45,7 +45,6 @@ Then the client will get a json response:
   }
 }
 ```
-</details>
 
 <details>
 <summary>Docker</summary>
@@ -80,10 +79,10 @@ docker-compose up -d
 - [x] multiple sessions
 - [x] commands for conversation like ```reset```or more
 - [ ] source auto release
-- [x] high concurrency(perhaps gin already supported)
+- [x] high concurrency(perhaps ```gin``` already supported)
 
 ### Reference
-At the very beginning I use the Python lib [EdgeGPT](https://github.com/acheong08/EdgeGPT) in my [bing-qqbot](https://github.com/Yoak3n/bing-qqbot),it's too complicated to start.So I planed to convert it to golang at some point,however thank [billikeu](https://github.com/billikeu/billikeu) that his repository [Go-EdgeGPT](https://github.com/billikeu/Go-EdgeGPT) really helped me(btw my plan is also named ```go-EdgeGPT```)XD   
+At the very beginning I use the Python lib [EdgeGPT](https://github.com/acheong08/EdgeGPT) in my [bing-qqbot](https://github.com/Yoak3n/bing-qqbot),it's too complicated to start.So I planed to convert it to golang at some point,however thank [billikeu](https://github.com/billikeu) that his repository [Go-EdgeGPT](https://github.com/billikeu/Go-EdgeGPT) really helped me(btw my plan is also named ```go-EdgeGPT```)XD   
 For the convenience of development, it is temporarily included as part of this project, and may be submitted as a PR in the future
 
 And the idea came from the http service of [chatgpt-mirai-qq-bot](https://github.com/lss233/chatgpt-mirai-qq-bot)

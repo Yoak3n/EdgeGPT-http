@@ -15,8 +15,9 @@ type User struct {
 	UID     string `gorm:"UNIQUE"`
 	Session string `gorm:"NOT NULL"`
 }
+
 type Message struct {
-	Question string
-	Answer   string
-	Session  string
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+	Session  string `json:"session"`
 }

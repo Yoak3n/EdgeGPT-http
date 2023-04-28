@@ -8,6 +8,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 // Created at 2023/4/10 14:56
@@ -16,8 +17,6 @@ var conn *sql.DB
 var DB *gorm.DB
 var user model.User
 var err error
-
-// var message model.Message
 
 func init() {
 	conf := config.Preset.Mysql
@@ -32,8 +31,9 @@ func init() {
 		log.Panic("create table failed")
 	}
 	conn, _ = DB.DB()
-	conn.SetMaxOpenConns(5)
-	conn.SetMaxIdleConns(2)
+	conn.SetMaxOpenConns(100)
+	conn.SetMaxIdleConns(10)
+	conn.SetConnMaxLifetime(time.Hour)
 	log.Println("MySQL already connected")
 }
 
@@ -58,4 +58,10 @@ func CreateMessage(question string, answer string, session string) {
 	}
 	DB.Create(&model.Data{Message: message})
 	log.Printf("MySQL成功写入一条属于%s的消息", session)
+}
+
+func GetSomeoneAllMessages(session string) []model.Data {
+	var results []model.Data
+	DB.Find(&results).Where("session =?", session)
+	return results
 }
