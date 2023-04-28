@@ -13,7 +13,7 @@ or
 
 [Download ZIP](https://github.com/Yoak3n/EdgeGPT-http/archive/refs/heads/main.zip) 
 
-### Usage
+### [Usage](https://github.com/Yoak3n/EdgeGPT-http/wiki#usage)
 
 #### Basic(manually)
 
@@ -24,7 +24,7 @@ Find the configuration file ```config.example.yaml``` and rename it as ```config
 go run .\main.go
 ```
 
-2. Client post the ```url/chat``` with a json data like the following:
+2. Client post to ```url/chat``` with a json data like the following:
 ```json
 {
   "name": "test",
