@@ -2,7 +2,9 @@ package router
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -18,7 +20,12 @@ import (
 const (
 	success = "success"
 	failed  = "failed"
+	empty   = "no result"
 )
+
+func init() {
+	rand.NewSource(time.Now().Unix())
+}
 
 func handleAnswer(b *gpt.EdgeBot, c *gin.Context, question string) {
 	session, _ := c.Get("session")
@@ -73,7 +80,7 @@ func handleReset(b *gpt.EdgeBot, c *gin.Context) {
 	}
 }
 
-func handleQuery(result []model.Data, c *gin.Context) {
+func handleSearch(result []model.Data, c *gin.Context) {
 	var messages []model.Message
 	for _, item := range result {
 		messages = append(messages, item.Message)
@@ -82,4 +89,23 @@ func handleQuery(result []model.Data, c *gin.Context) {
 		"status":  success,
 		"results": messages,
 	})
+}
+
+func handleQuery(result []model.Data, c *gin.Context) {
+	if result != nil {
+		total := len(result)
+		choice := rand.Intn(total)
+		answer := result[choice].Answer
+		c.JSON(http.StatusOK, gin.H{
+			"status": success,
+			"answer": answer,
+			"choice": choice,
+			"total":  total,
+		})
+	} else {
+		c.JSON(http.StatusNoContent, gin.H{
+			"status": empty,
+		})
+	}
+
 }

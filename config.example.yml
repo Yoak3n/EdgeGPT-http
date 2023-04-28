@@ -8,7 +8,7 @@ EdgeGPT:
   #path from main.go,also look https://github.com/acheong08/EdgeGPT please
   proxy: ""
 
-Mysql:  # optional
+MySQL:  # optional
   user: "root"
   password: ""
   port: 3306

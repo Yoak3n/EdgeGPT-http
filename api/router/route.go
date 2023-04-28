@@ -33,8 +33,14 @@ func responseQuestion(c *gin.Context) {
 	}
 }
 
-func sessionQuery(c *gin.Context) {
+func sessionSearch(c *gin.Context) {
 	query := c.Param("session")
 	result := database.GetSomeoneAllMessages(query)
+	handleSearch(result, c)
+}
+
+func questionQuery(c *gin.Context) {
+	query := c.Param("question")
+	result := database.GetSomeQuestionAllAnswer(query)
 	handleQuery(result, c)
 }

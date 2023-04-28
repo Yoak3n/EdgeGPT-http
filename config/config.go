@@ -53,10 +53,10 @@ func init() {
 	}
 
 	Preset.Server.Port = viper.GetInt("Server.port")
-	Preset.Mysql.MName = viper.GetString("Mysql.user")
-	Preset.Mysql.MPwd = viper.GetString("Mysql.password")
-	Preset.Mysql.Port = viper.GetInt("Mysql.port")
-	Preset.Mysql.DBName = viper.GetString("Mysql.db_name")
+	Preset.Mysql.MName = viper.GetString("MySQL.user")
+	Preset.Mysql.MPwd = viper.GetString("MySQL.password")
+	Preset.Mysql.Port = viper.GetInt("MySQL.port")
+	Preset.Mysql.DBName = viper.GetString("MySQL.db_name")
 
 	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookiePath", "cookies.json")
 	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookies", "")

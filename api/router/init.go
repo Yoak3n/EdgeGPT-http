@@ -13,5 +13,6 @@ func init() {
 	R = gin.Default()
 	R.Use(middleware.Cors())
 	R.POST("/chat", middleware.RequestSource(), responseQuestion)
-	R.GET("/search/:session", sessionQuery) // 好像没什么必要的查询功能
+	R.GET("/search/:session", sessionSearch) // 好像没什么必要的查询功能
+	R.GET("/query/:question", questionQuery) // 这个功能比上面这个重要多了
 }
