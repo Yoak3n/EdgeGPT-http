@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     tags:
-      - 'v*'
+      - v*
 
 jobs:
    docker:
@@ -32,7 +32,7 @@ jobs:
             context: .
             push: true
             platforms: 'linux/amd64,linux/arm64'
-            tags: yoaken/edgegpt-http:${{ steps.branch-name.outputs.tag }}
+            tags: yoaken/edgegpt-http:latest
             cache-from: type=gha
             cache-to: type=gha,mode=max
 
