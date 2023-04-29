@@ -9,4 +9,4 @@ services:
       - ./cookies.json ./cookies.json
       - ./config.yml ./config.yml
     environment:
-      - GIN_MODE:"release"
+      - GIN_MODE=release

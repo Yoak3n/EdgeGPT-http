@@ -61,7 +61,12 @@ func CreateMessage(question string, answer string, session string) {
 }
 
 func GetSomeoneAllMessages(session string) []model.Data {
-	var results []model.Data
-	DB.Find(&results).Where("session =?", session)
-	return results
+	var result []model.Data
+	DB.Find(&result).Where("session =?", session)
+	return result
+}
+func GetSomeQuestionAllAnswer(question string) []model.Data {
+	var result []model.Data
+	DB.Find(&result).Where("question = ?", question)
+	return result
 }
