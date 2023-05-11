@@ -74,6 +74,7 @@ func (e *EdgeBot) callback(a *edgegpt.Answer) {
 }
 
 func (e *EdgeBot) Reset() error {
+	e.Last = time.Now()
 	err := e.Bot.Reset()
 	if err != nil {
 		return err
