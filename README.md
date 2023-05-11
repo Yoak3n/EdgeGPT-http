@@ -78,7 +78,7 @@ docker-compose up -d
 ### Problem
 - [x] multiple sessions
 - [x] commands for conversation like ```reset```or more
-- [ ] source auto release
+- [x] source auto release
 - [x] high concurrency(perhaps ```gin``` already supported)
 
 ### Reference
