@@ -7,11 +7,28 @@ import (
 	"github.com/Yoak3n/EdgeGPT-http/edgegpt"
 	"github.com/google/uuid"
 	"log"
+	"time"
 )
 
 type BotPool struct {
 	Workers map[string]*EdgeBot
 	Size    int
+}
+
+func (b *BotPool) WatchPool() {
+	for {
+		time.Sleep(time.Hour)
+		b.sessionExpire()
+	}
+}
+
+// 简单的释放内存
+func (b *BotPool) sessionExpire() {
+	for key, bot := range b.Workers {
+		if time.Now().Unix()-bot.Last.Unix() > 24*60*60 {
+			delete(b.Workers, key)
+		}
+	}
 }
 
 type EdgeBot struct {
@@ -21,6 +38,7 @@ type EdgeBot struct {
 	Bot     *edgegpt.ChatBot
 	Style   edgegpt.ConversationStyle
 	End     bool
+	Last    time.Time
 }
 
 func NewBot(session string, style string) *EdgeBot {
@@ -40,7 +58,7 @@ func NewBot(session string, style string) *EdgeBot {
 		s = edgegpt.Precise
 	}
 	// import uuid
-	return &EdgeBot{uuid.NewString(), session, nil, bot, s, false}
+	return &EdgeBot{uuid.NewString(), session, nil, bot, s, false, time.Now()}
 }
 
 func (e *EdgeBot) OnQuestion(question string) {
@@ -52,6 +70,7 @@ func (e *EdgeBot) OnQuestion(question string) {
 
 func (e *EdgeBot) callback(a *edgegpt.Answer) {
 	e.Answer = a
+	e.Last = time.Now()
 }
 
 func (e *EdgeBot) Reset() error {
@@ -62,7 +81,3 @@ func (e *EdgeBot) Reset() error {
 		return nil
 	}
 }
-
-//func (e *EdgeBot) OnAnswer() {
-//
-//}

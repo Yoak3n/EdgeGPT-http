@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Yoak3n/EdgeGPT-http/api/middleware"
 	"github.com/Yoak3n/EdgeGPT-http/api/router"
 	"github.com/Yoak3n/EdgeGPT-http/config"
 	"github.com/Yoak3n/EdgeGPT-http/internal/database"
@@ -13,6 +14,7 @@ import (
 func main() {
 	r := router.R
 	defer database.CloseConnect()
+	go middleware.Pool.WatchPool()
 	err := r.Run(fmt.Sprintf("127.0.0.1:%d", config.Preset.Server.Port))
 	if err != nil {
 		panic(err)

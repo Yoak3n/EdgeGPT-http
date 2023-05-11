@@ -37,14 +37,14 @@ func init() {
 	log.Println("MySQL already connected")
 }
 
-func UserRegister(session string, uid string) {
-	DB.Create(&model.User{UID: uid, Session: session})
-}
-
-func ReadUser(session string) model.User {
-	DB.First(user, "session = ?", session)
-	return user
-}
+//func UserRegister(session string, uid string) {
+//	DB.Create(&model.User{UID: uid, Session: session})
+//}
+//
+//func ReadUser(session string) model.User {
+//	DB.First(user, "session = ?", session)
+//	return user
+//}
 
 func CloseConnect() {
 	conn.Close()
