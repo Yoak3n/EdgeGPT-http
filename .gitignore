@@ -4,3 +4,6 @@ deploy-docker.yml
 
 edgegpt-http_linux_amd64
 edgegpt-http_windows_amd64.exe
+
+edgegpt-http_linuxamd64
+edgegpt-http_windowsamd64.exe
