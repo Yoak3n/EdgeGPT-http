@@ -51,6 +51,9 @@ func init() {
 		}
 
 	}
+	viper.SetDefault("EdgeGPT.cookiePath", "cookies.json")
+	viper.SetDefault("EdgeGPT.cookies", "")
+	viper.SetDefault("EdgeGPT.proxy", "")
 
 	Preset.Server.Port = viper.GetInt("Server.port")
 	Preset.Mysql.MName = viper.GetString("MySQL.user")
@@ -58,44 +61,20 @@ func init() {
 	Preset.Mysql.Port = viper.GetInt("MySQL.port")
 	Preset.Mysql.DBName = viper.GetString("MySQL.db_name")
 
-	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookiePath", "cookies.json")
-	Preset.EdgeGPT.setDefaultConf("EdgeGPT.cookies", "")
-	Preset.EdgeGPT.setDefaultConf("EdgeGPT.proxy", "")
+	Preset.EdgeGPT.CookiePath = viper.GetString("EdgeGPT.cookiePath")
 	Preset.EdgeGPT.Proxy = viper.GetString("EdgeGPT.proxy")
-	log.Println("Configuration loaded successfully!")
-
-}
-
-func (e *EdgeGPT) setDefaultConf(key string, value string) {
-	get := viper.GetString(key)
+	var data []map[string]interface{}
+	get := viper.GetString("EdgeGPT.cookies")
 	if get != "" {
-		switch key {
-		case "EdgeGPT.cookiePath":
-			e.CookiePath = get
-		case "EdgeGPT.cookies":
-			var data []map[string]interface{}
-			err := json.Unmarshal([]byte(get), &data)
-			if err != nil {
-				log.Panic("Unmarshal cookies err")
-			}
-			e.Cookies = data
-		case "EdgeGPT.proxy":
-			e.Proxy = get
+		err = json.Unmarshal([]byte(get), &data)
+		if err != nil {
+			log.Panic("Unmarshal cookies err")
 		}
-	} else {
-		switch key {
-		case "EdgeGPT.cookiePath":
-			e.CookiePath = value
-		case "EdgeGPT.cookies":
-			var data []map[string]interface{}
-			err := json.Unmarshal([]byte(value), &data)
-			if err != nil && value != "" {
-				log.Println("Unmarshal cookies err")
-			}
-			e.Cookies = data
-		case "EdgeGPT.proxy":
-			e.CookiePath = value
-		}
+		Preset.EdgeGPT.Cookies = data
 	}
 
+	log.Println("Configuration loaded successfully!")
+
+	// 监控配置文件
+	viper.WatchConfig()
 }
